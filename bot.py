@@ -1,12 +1,11 @@
-#importpgog
 import discord 
 import asyncio
 from discord.ext import commands
-# intents shittt
+
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
-# fortnite events
+
 @bot.event
 async def on_ready():
     try:
@@ -23,7 +22,7 @@ async def load_cogs():
     try:
          bot.load_extension("cogs.testing.message")
     except Exception as e:
-        print(f"failed to load cog: {e}")
+        print(f"Failed to load cog: {e}")
 
 # do stuff yes
 async def main(): 
@@ -33,9 +32,8 @@ async def main():
     except discord.LoginFailure as e:
         print(f"Login failed: {e}")
     except Exception as e:
-        print(f"somethin happen: {e}")
+        print(f"An error occured: {e}")
 
-# sdfjlksdjkljlkdfs
 if __name__ == "__main__":
     asyncio.run(main())
 
