@@ -17,7 +17,7 @@ async def on_ready():
         else:
             print("Not currently in any servers")
     except Exception as e:
-        print("skill issue")
+        print(f"skill issue:{e}")
 # load cogs
 async def load_cogs():
     try:
