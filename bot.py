@@ -22,6 +22,9 @@ async def on_ready():
 async def load_cogs():
     try:
          bot.load_extension("cogs.testing.message")
+         bot.load_extension("cogs.testing.log")
+         bot.load_extension("cogs.utility.auth")
+         bot.load_extension("cogs.utility.inference")
     except Exception as e:
         print(f"failed to load cog: {e}")
 
