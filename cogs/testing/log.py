@@ -13,7 +13,6 @@ class Log(commands.Cog):
 
 
 
-def setup(bot):
+async def setup(bot):
     print("setting up the log cog...")
-    bot.add_cog(Log(bot))
-
+    await bot.add_cog(Log(bot))
