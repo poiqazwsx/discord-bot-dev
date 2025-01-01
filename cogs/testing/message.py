@@ -16,7 +16,6 @@ class Message(commands.Cog):
             await message.channel.send("test")
 
 
-
 async def setup(bot):
     print("setting up the message cog...")
     await bot.add_cog(Message(bot))
