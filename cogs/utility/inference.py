@@ -13,7 +13,7 @@ class Inference(commands.Cog):
         self.bot = bot
         api_key = os.environ.get("GROQ_API_KEY")
         if api_key is None:
-            print("Error: GROQ_API_KEY environment variable aint real")
+            logging.error("GROQ_API_KEY environment variable aint real")
             raise Exception("GROQ_API_KEY aint real")
         self.client = AsyncGroq(api_key=api_key)
         self.memory = {}
@@ -43,7 +43,7 @@ class Inference(commands.Cog):
                         temperature=self.temperature
                     )
                     reply = response.choices[0].message.content.strip()
-                    logging.info(f"User:{message.author.id}\n Message{message}\n Response:{reply}")
+                    logging.info(f"Name:{message.author.name}\n User:{message.author.id}\n Message{message.content}\n Response:{reply}")
                     self.memory[user_id].append({"role": "assistant", "content": reply})
                     for i in range(0, len(reply), 2000):
                         chunk = reply[i:i + 2000]
@@ -51,9 +51,8 @@ class Inference(commands.Cog):
                 except Exception as e:
                     await message.channel.send("woopsies somethin happen")
                     logging.error(f"groq completion did a skill issue : {e}")
-                    print(f"groq completion did a skill issue : {e}")
 
 
 async def setup(bot):
-    print("setting up the inference cog...")
+    logging.info("setting up the inference cog...")
     await bot.add_cog(Inference(bot))

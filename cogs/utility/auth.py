@@ -1,6 +1,7 @@
 # cogs/untility/auth.py
 import discord
 from discord.ext import commands
+import logging
 authorized_users = [9366731394129664414, 2987654321098765432]
 authorized_roles = [1198707036070871102, 222222222222222222]
 
@@ -28,5 +29,5 @@ class Auth(commands.Cog):
 
 
 async def setup(bot):
-    print("setting up the auth cog...")
+    logging.info("setting up the auth cog...")
     await bot.add_cog(Auth(bot))

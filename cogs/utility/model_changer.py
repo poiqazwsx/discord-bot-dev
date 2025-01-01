@@ -2,7 +2,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-
+import logging
 
 class ModelChanger(commands.Cog):
     def __init__(self, bot):
@@ -17,21 +17,27 @@ class ModelChanger(commands.Cog):
         auth_cog = self.bot.get_cog("Auth")
         if auth_cog is None:
             await interaction.response.send_message("The `Auth` cog is not loaded.", ephemeral=True)
+            logging.error("The `Auth` cog is not loaded.")
             return
 
         if not auth_cog.is_authorized(interaction):
              await interaction.response.send_message("You are not authorized to use this command.", ephemeral=True)
+             logging.error(f"{interaction.user} tried to change model but was authorized")
              return
 
         if inference_cog is None:
             await interaction.response.send_message("The `Inference` cog is not loaded.", ephemeral=True)
+            logging.error("The `Inference` cog is not loaded.")
             return
 
         if model not in self.allowed_models:
             await interaction.response.send_message("Invalid Model.", ephemeral=True)
+            logging.error(f"Invalid Model: {model}")
             return
+
         inference_cog.model = model
         await interaction.response.send_message(f"Model set to `{model}`.", ephemeral=True)
+        logging.info(f"Model set to `{model}` by {interaction.user}.")
     @set_model.autocomplete("model")
     async def model_autocomplete(self, interaction: discord.Interaction, current: str):
             return [
@@ -41,5 +47,5 @@ class ModelChanger(commands.Cog):
 
 
 async def setup(bot):
-    print("setting up the model changer cog...")
+    logging.info("setting up the model changer cog...")
     await bot.add_cog(ModelChanger(bot))

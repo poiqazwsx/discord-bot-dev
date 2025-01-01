@@ -2,7 +2,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-
+import logging
 class LLMSettings(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -16,14 +16,17 @@ class LLMSettings(commands.Cog):
         auth_cog = self.bot.get_cog("Auth")
         if auth_cog is None:
             await interaction.response.send_message("The `Auth` cog is not loaded.", ephemeral=True)
+            logging.error("The `Auth` cog is not loaded.")
             return
 
         if not auth_cog.is_authorized(interaction):
              await interaction.response.send_message("You are not authorized to use this command.", ephemeral=True)
+             logging.error(f"{interaction.user} tried to change llm_current_settings but was authorized")
              return
 
         if inference_cog is None:
             await interaction.response.send_message("The `Inference` cog is not loaded.", ephemeral=True)
+            logging.error("The `Inference` cog is not loaded.")
             return
 
         embed = discord.Embed(title="Current LLM Settings", color=discord.Color.blue())
@@ -35,5 +38,5 @@ class LLMSettings(commands.Cog):
 
 
 async def setup(bot):
-    print("setting up the llm_current_settings cog...")
+    logging.info("setting up the llm current settings cog...")
     await bot.add_cog(LLMSettings(bot))
