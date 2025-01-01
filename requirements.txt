@@ -1,0 +1,5 @@
+discord.py
+asyncio
+asyncio
+audioop-lts
+python-dotenv
