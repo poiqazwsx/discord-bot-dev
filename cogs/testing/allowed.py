@@ -1,4 +1,5 @@
 # cogs/testing/allowed.py
+import logging
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -28,5 +29,5 @@ class Allowed(commands.Cog):
 
 
 async def setup(bot):
-    print("setting up the allowed cog...")
+    logging.info("setting up the allowed cog...")
     await bot.add_cog(Allowed(bot))
