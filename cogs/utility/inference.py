@@ -5,7 +5,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from groq import AsyncGroq
 model = "llama-3.3-70b-versatile"
-ALLOWED_ROLE_ID = 1198707036070871102
 load_dotenv()
 class Inference(commands.Cog):
     def __init__(self, bot):
@@ -18,18 +17,6 @@ class Inference(commands.Cog):
         self.memory = {}
         self.memory_limit = 5
         self.model = model
-        def is_allowed_role():
-            async def predicate(interaction: discord.Interaction):
-                role = interaction.guild.get_role(ALLOWED_ROLE_ID)
-                if role is None:
-                    await interaction.response.send_message("The specified role does not exist.", ephemeral=True)
-                    return False
-                if role in interaction.user.roles:
-                    return True
-                else:
-                    await interaction.response.send_message("You do not have the required role to use this command.", ephemeral=True)
-                    return False
-            return app_commands.check(predicate)
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.bot.user:
