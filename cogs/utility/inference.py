@@ -1,9 +1,11 @@
+# cogs/utility/inference.py
 import os
 import discord
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 from groq import AsyncGroq
+import logging
 model = "llama-3.3-70b-versatile"
 load_dotenv()
 class Inference(commands.Cog):
@@ -17,6 +19,8 @@ class Inference(commands.Cog):
         self.memory = {}
         self.memory_limit = 5
         self.model = model
+        self.temperature = 1
+        self.max_tokens = 1000
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.bot.user:
@@ -35,16 +39,18 @@ class Inference(commands.Cog):
                     response = await self.client.chat.completions.create(
                         model=self.model,
                         messages=messages,
-                        max_tokens=1000,
-                        temperature=1
+                        max_tokens=self.max_tokens,
+                        temperature=self.temperature
                     )
                     reply = response.choices[0].message.content.strip()
+                    logging.info(f"User:{message.author.id}\n Message{message}\n Response:{reply}")
                     self.memory[user_id].append({"role": "assistant", "content": reply})
                     for i in range(0, len(reply), 2000):
                         chunk = reply[i:i + 2000]
                         await message.channel.send(chunk)
                 except Exception as e:
                     await message.channel.send("woopsies somethin happen")
+                    logging.error(f"groq completion did a skill issue : {e}")
                     print(f"groq completion did a skill issue : {e}")
 
 
