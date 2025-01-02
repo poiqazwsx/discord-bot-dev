@@ -3,6 +3,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import logging
+
+from cogs.utility.inference_toggle import Toggle_llm
 class LLMSettings(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -13,7 +15,13 @@ class LLMSettings(commands.Cog):
         Show the current LLM settings in an embed.
         """
         inference_cog = self.bot.get_cog("Inference")
+        inference_toggle = self.bot.get_cog("Toggle_llm")
         auth_cog = self.bot.get_cog("Auth")
+        if inference_toggle is None:
+            await interaction.response.send_message("The `inference_toggle` cog is not loaded.", ephemeral=True)
+            logging.error("The `inference_toggle` cog is not loaded.")
+            return
+
         if auth_cog is None:
             await interaction.response.send_message("The `Auth` cog is not loaded.", ephemeral=True)
             logging.error("The `Auth` cog is not loaded.")
@@ -34,6 +42,7 @@ class LLMSettings(commands.Cog):
         embed.add_field(name="Context Messages", value=inference_cog.memory_limit, inline=False)
         embed.add_field(name="Max Tokens", value=inference_cog.max_tokens, inline=False)
         embed.add_field(name="Temperature", value=inference_cog.temperature, inline=False)
+        embed.add_field(name="Enabled", value=inference_toggle.is_inference_enabled(), inline=False)
         await interaction.response.send_message(embed=embed)
 
 

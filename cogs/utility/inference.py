@@ -25,6 +25,9 @@ class Inference(commands.Cog):
     async def on_message(self, message):
         if message.author == self.bot.user:
             return
+        inference_toggle_cog = self.bot.get_cog("Toggle_llm")
+        if inference_toggle_cog is None or not inference_toggle_cog.is_inference_enabled():
+            return
         if self.bot.user in message.mentions:
             user_id = message.author.id
             content = message.clean_content.replace(f"@{self.bot.user.name}", "").strip()
