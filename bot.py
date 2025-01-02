@@ -15,7 +15,7 @@ def load_config():
     with open('config/config.yml', 'r') as file:
         return yaml.safe_load(file)
 config = load_config()
-# Setup logging
+# setup logging
 log_file_path = config.get("log_file_path", "bot.log")
 logging.basicConfig(
     level=logging.INFO,
@@ -35,24 +35,19 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @bot.event
 async def on_ready():
     try:
-        print(f'Logged in as {bot.user}')
         logging.info(f'Logged in as {bot.user}')
         if bot.guilds:
             for guild in bot.guilds:
-                print(f'Server: {guild.name} (ID: {guild.id})')
                 logging.info(f'Server: {guild.name} (ID: {guild.id})')
         else:
-            print("Not currently in any servers")
+            logging.info("Not currently in any servers")
         try:
             synced = await bot.tree.sync()
-            print(f"Synced {len(synced)} commands")
             logging.info(f"Synced {len(synced)} commands")
         except Exception as e:
-            print(f"Failed to sync commands: {e}")
             logging.error(f"Failed to sync commands: {e}")
     except Exception as e:
-        print(f"skill issue: {e}")
-        logging.error(f"something happen lol")
+        logging.error(f"skill issue: {e}")
 
 
 # load cogs
@@ -65,8 +60,10 @@ async def load_cogs():
           await bot.load_extension("cogs.utility.inference")
           await bot.load_extension("cogs.utility.model_changer")
           await bot.load_extension("cogs.utility.llm_current_settings")
+          await bot.load_extension("cogs.utility.inference_toggle")
+          await bot.load_extension("cogs.utility.profile_editor")
+          await bot.load_extension("cogs.utility.ping")
     except Exception as e:
-        print(f"failed to load cog: {e}")
         logging.error(f"failed to load cog: {e}")
 
 # do stuff yes
@@ -75,10 +72,8 @@ async def main():
         await load_cogs()
         await bot.start(DISCORD_BOT_KEY)
     except discord.LoginFailure as e:
-        print(f"Login failed: {e}")
         logging.error(f"Login failed: {e}")
     except Exception as e:
-        print(f"somethin happen: {e}")
         logging.error(f"somethin happen: {e}")
 
 
