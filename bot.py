@@ -64,6 +64,7 @@ async def load_cogs():
           await bot.load_extension("cogs.utility.profile_editor")
           await bot.load_extension("cogs.utility.server_info")
           await bot.load_extension("cogs.utility.fetch")
+          await bot.load_extension("cogs.utility.reminder")
           await bot.load_extension("cogs.utility.ping")
     except Exception as e:
         logging.error(f"failed to load cog: {e}")
