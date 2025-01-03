@@ -1,2 +1,3 @@
 # config/config.yml
 log_file_path: "/home/poop/Downloads/bot/log.txt" # dont be an idiot like me and forget to add log.txt
+fetch_data_dir: "/home/poop/Downloads/bot/fetch_data"
