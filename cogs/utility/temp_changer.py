@@ -9,7 +9,7 @@ class Tempchange(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="set_temp", description="Change the temp for the LLM.")
-    async def set_system_prompt(self, interaction: discord.Interaction, temperature: str):
+    async def set_system_prompt(self, interaction: discord.Interaction, temperature: float):
         """Command to set the temp."""
         inference_cog = self.bot.get_cog("Inference")
         if inference_cog is None:
@@ -23,7 +23,7 @@ class Tempchange(commands.Cog):
             logging.error(f"{interaction.user} tried to set the temp but was not authorized.")
             return
 
-        inference_cog.temperature = float(temperature)
+        inference_cog.temperature = temperature
         await interaction.response.send_message(f"temp updated to: {temperature}", ephemeral=True)
         logging.info(f"temp updated by {interaction.user}: {temperature}")
 
