@@ -1,5 +1,6 @@
 discord.py
 asyncio
-asyncio
 audioop-lts
 python-dotenv
+groq
+PyYAML
