@@ -25,7 +25,7 @@ class Tempchange(commands.Cog):
 
         inference_cog.temperature = float(temperature)
         await interaction.response.send_message(f"temp updated to: {temperature}", ephemeral=True)
-        logging.info(f"System prompt updated by {interaction.user}: {temperature}")
+        logging.info(f"temp updated by {interaction.user}: {temperature}")
 
 async def setup(bot):
     logging.info("setting up the temp changer cog...")
