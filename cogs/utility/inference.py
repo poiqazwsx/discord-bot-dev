@@ -21,6 +21,7 @@ class Inference(commands.Cog):
         self.model = model
         self.temperature = 1
         self.max_tokens = 1000
+        self.system_prompt = "You are a helpful assistant."
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.bot.user:
@@ -33,7 +34,7 @@ class Inference(commands.Cog):
             content = message.clean_content.replace(f"@{self.bot.user.name}", "").strip()
             if content:
                 if user_id not in self.memory:
-                   self.memory[user_id] = []
+                   self.memory[user_id] = [{"role": "system", "content": self.system_prompt}]
                 self.memory[user_id].append({"role": "user", "content": content})
                 if len(self.memory[user_id]) > self.memory_limit * 2:
                     self.memory[user_id] = self.memory[user_id][-self.memory_limit * 2:]
