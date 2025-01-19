@@ -9,7 +9,6 @@ class Log(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        print(f'Message from {message.author}: {message.content}')
         logging.info(f'Message from {message.author}: {message.content}')
 
 async def setup(bot):
