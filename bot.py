@@ -54,6 +54,7 @@ async def on_ready():
 async def load_cogs():
     try:
           await bot.load_extension("cogs.testing.message")
+          await bot.load_extension("cogs.testing.homework_manager")
           await bot.load_extension("cogs.testing.log")
           await bot.load_extension("cogs.testing.allowed")
           await bot.load_extension("cogs.utility.auth")
@@ -69,6 +70,14 @@ async def load_cogs():
           await bot.load_extension("cogs.utility.temp_changer")
           await bot.load_extension("cogs.utility.memory_changer")
           await bot.load_extension("cogs.utility.ping")
+          await bot.load_extension("cogs.utility.compiler")
+          await bot.load_extension("cogs.utility.provider_selector")
+          await bot.load_extension("cogs.utility.inference_gemini")
+          await bot.load_extension("cogs.testing.messages_sender")
+          await bot.load_extension("cogs.utility.code_generator")
+          await bot.load_extension("cogs.testing.deepsite")
+          await bot.load_extension("cogs.utility.deep_research")
+          await bot.load_extension("cogs.testing.is_odd")
     except Exception as e:
         logging.error(f"failed to load cog: {e}")
 
@@ -90,3 +99,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("you killed me :(")
         logging.info("KeyboardInterrupt")
+    except Exception as e:
+        logging.error(f"unexpected error: {e}")
